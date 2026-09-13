@@ -34,11 +34,22 @@ A hand pose recognition system based on **Support Vector Machine (SVM)** with **
 
 ```
 Part1_SVM_HandPose/
-├── hand_pose_inference.cpp      # Main inference program
-├── hand_pose_svm_model.yml      # SVM model file
-├── hand_pose_svm_model_params.yml  # PCA parameters
+├── hand_pose_train.cpp          # Training code (SVM+HOG feature extraction & training)
+├── hand_pose_inference.cpp      # Inference/prediction code
+├── hand_pose_svm_model.yml      # Trained SVM model
+├── hand_pose_svm_model_params.yml  # PCA normalization parameters
 └── requirements.txt             # Environment setup guide
 ```
+
+### Training Code
+
+`hand_pose_train.cpp` is the core training code for Part 1, including:
+- HOG + LBP + Hu moments + contour feature fusion
+- PCA dimensionality reduction
+- K-fold cross-validation for automatic best SVM model selection
+- Data augmentation (brightness, flipping, rotation, scaling, Gaussian noise)
+
+> Note: The code is currently commented out (due to compilation environment dependencies). Uncomment and configure the dataset path to compile and run.
 
 ### Requirements
 
@@ -48,10 +59,10 @@ Part1_SVM_HandPose/
 
 ### Usage
 
-1. Compile with OpenCV: `g++ -o hand_pose_inference hand_pose_inference.cpp ...`
+1. Compile with OpenCV: `g++ -o hand_pose_train hand_pose_train.cpp ...`
 2. Place model files in the same directory
-3. Update `TEST_FOLDER` path in source code
-4. Run: `./hand_pose_inference`
+3. Update `TRAIN_ROOT` path in source code
+4. Run: `./hand_pose_train`
 
 ---
 
@@ -75,9 +86,32 @@ A deep learning-based gesture recognition system using **ConvNeXt-Tiny** archite
 
 ```
 Part2_DeepLearning_HandGesture/
-├── hand_gesture_test.py         # Main test script
+├── train.py                     # Training code (ConvNeXt-Tiny fine-tuning)
+├── dataset.py                   # Dataset loading and augmentation
+├── hand_gesture_test.py         # Testing/inference code
+├── training_history.txt         # Training history (30 epochs)
 ├── best_model.pth               # Trained model weights (111MB)
 └── requirements.txt             # Python dependencies
+```
+
+### Training Code
+
+`train.py` is the core training code for Part 2, including:
+- ConvNeXt-Tiny model building (ImageNet pretrained weights)
+- AdamW optimizer + Cosine annealing learning rate scheduling
+- Train/validation split (80/20 stratified sampling)
+- Automatic best model saving
+- Training history logging
+
+Training dataset structure:
+```
+Hand_Posture_Hard_Stu/
+├── A/         # Class A gesture images
+├── B/         # Class B gesture images
+├── C/         # Class C gesture images
+├── Five/      # Class Five gesture images
+├── Point/     # Class Point gesture images
+└── V/         # Class V gesture images
 ```
 
 ### Requirements
@@ -93,8 +127,8 @@ numpy>=1.20.0
 ### Usage
 
 1. Install dependencies: `pip install -r requirements.txt`
-2. Update `DATA_DIR` in the script to your dataset path
-3. Run: `python hand_gesture_test.py`
+2. Train: `python train.py --data_root <dataset_path>`
+3. Test: `python hand_gesture_test.py`
 
 ---
 

@@ -34,11 +34,22 @@ English version: [README_en.md](README_en.md)
 
 ```
 Part1_SVM_HandPose/
-├── hand_pose_inference.cpp      # 主推理程序
-├── hand_pose_svm_model.yml      # SVM模型文件
-├── hand_pose_svm_model_params.yml  # PCA参数
+├── hand_pose_train.cpp          # 训练代码 (SVM+HOG特征提取与训练)
+├── hand_pose_inference.cpp      # 推理/测试代码
+├── hand_pose_svm_model.yml      # 训练好的SVM模型
+├── hand_pose_svm_model_params.yml  # PCA归一化参数
 └── requirements.txt             # 环境配置说明
 ```
+
+### 训练代码说明
+
+`hand_pose_train.cpp` 是第一部分的核心训练代码，包含：
+- HOG + LBP + Hu矩 + 轮廓特征融合
+- PCA降维
+- K折交叉验证自动选择最优SVM模型
+- 数据增强（亮度变化、水平翻转、旋转、缩放、高斯噪声）
+
+> 注：当前文件中代码以注释形式保留（因编译环境依赖），使用时取消注释并配置数据集路径即可编译运行。
 
 ### 环境要求
 
@@ -48,10 +59,10 @@ Part1_SVM_HandPose/
 
 ### 使用方法
 
-1. 使用OpenCV编译：`g++ -o hand_pose_inference hand_pose_inference.cpp ...`
+1. 使用OpenCV编译：`g++ -o hand_pose_train hand_pose_train.cpp ...`
 2. 将模型文件放在同一目录
-3. 在源代码中更新`TEST_FOLDER`路径
-4. 运行：`./hand_pose_inference`
+3. 在源代码中更新`TRAIN_ROOT`数据集路径
+4. 运行：`./hand_pose_train`
 
 ---
 
@@ -75,9 +86,32 @@ Part1_SVM_HandPose/
 
 ```
 Part2_DeepLearning_HandGesture/
-├── hand_gesture_test.py         # 主测试脚本
+├── train.py                     # 训练代码 (ConvNeXt-Tiny微调)
+├── dataset.py                   # 数据集加载与增强
+├── hand_gesture_test.py         # 测试/推理代码
+├── training_history.txt         # 训练历史记录 (30 epochs)
 ├── best_model.pth               # 训练好的模型权重 (111MB)
 └── requirements.txt             # Python依赖
+```
+
+### 训练代码说明
+
+`train.py` 是第二部分的核心训练代码，包含：
+- ConvNeXt-Tiny 模型构建 (ImageNet预训练权重)
+- AdamW优化器 + 余弦退火学习率调度
+- 训练/验证分离 (80/20分层采样)
+- 自动保存最优模型
+- 训练历史记录保存
+
+训练数据集结构：
+```
+Hand_Posture_Hard_Stu/
+├── A/         # A类手势图像
+├── B/         # B类手势图像
+├── C/         # C类手势图像
+├── Five/      # Five类手势图像
+├── Point/     # Point类手势图像
+└── V/         # V类手势图像
 ```
 
 ### 环境要求
@@ -93,8 +127,8 @@ numpy>=1.20.0
 ### 使用方法
 
 1. 安装依赖：`pip install -r requirements.txt`
-2. 在脚本中修改`DATA_DIR`为你的数据集路径
-3. 运行：`python hand_gesture_test.py`
+2. 训练：`python train.py --data_root <数据集路径>`
+3. 测试：`python hand_gesture_test.py`
 
 ---
 
