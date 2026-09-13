@@ -1,0 +1,37 @@
+# Archive files
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+
+# Document files
+*.docx
+*.doc
+*.pdf
+*.pptx
+*.ppt
+*.xlsx
+*.xls
+
+# Large model files (>100MB GitHub limit)
+*.pth
+*.pt
+*.h5
+*.hdf5
+*.onnx
+
+# Open generated files (large)
+*_svm_model.yml
+*_svm_model_params.yml
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+*.swp
+*.swo
+*~

@@ -1,0 +1,74 @@
+# ============================================================================
+# Part 1 - C++ / OpenCV 运行环境要求
+# ============================================================================
+# 本文件说明运行 hand_pose_inference.cpp 所需的编译和运行环境。
+# 与 Part 2 (Python) 不同，Part 1 需要手动编译后才能运行。
+#
+# ---------------------- 推荐方案：MinGW + OpenCV (Windows) ----------------------
+#
+# 1. 安装 MinGW-w64 编译器（推荐使用 MSYS2）
+#    下载地址: https://www.msys2.org/
+#    安装后在 MSYS2 MINGW64 终端中执行:
+#       pacman -S mingw-w64-ucrt-x86_64-gcc
+#       pacman -S mingw-w64-ucrt-x86_64-gdb
+#
+# 2. 安装 OpenCV C++ 开发库（推荐通过 vcpkg 或手动编译）
+#
+#    方案 A - vcpkg 一键安装（推荐）:
+#       git clone https://github.com/Microsoft/vcpkg.git
+#       .\vcpkg\bootstrap-vcpkg.bat
+#       .\vcpkg\vcpkg install opencv[xfeatures] --triplet=x64-windows
+#
+#    方案 B - MSYS2  pacman 安装:
+#       pacman -S mingw-w64-ucrt-x86_64-opencv
+#
+# 3. 编译命令（假设 opencv4 装在 C:/opencv）
+#    g++ -o hand_pose_inference.exe hand_pose_inference.cpp \
+#        -IC:/opencv/build/include \
+#        -LC:/opencv/build/x64/mingw/lib \
+#        -lopencv_core -lopencv_imgproc -lopencv_imgcodecs \
+#        -lopencv_ml -lopencv_features2d \
+#        -std=c++11 -static-libgcc -static-libstdc++
+#
+# ---------------------- OpenCV 版本要求 ----------------------
+#
+#    opencv >= 4.0.0   (必需)
+#    opencv_contrib >= 4.0.0  (可选, 用于额外算法)
+#
+#    本代码测试通过的版本:
+#       OpenCV 4.5.x / 4.6.x / 4.8.x / 4.9.x
+#
+# ---------------------- C++ 标准 ----------------------
+#
+#    C++ 11 或更高 (代码中使用了 lambda、auto 等特性)
+#
+# ---------------------- 依赖说明 ----------------------
+#
+#    opencv_core     - 核心数据结构 (Mat, Point, Size 等)
+#    opencv_imgproc  - 图像处理 (GaussianBlur, threshold, morphology 等)
+#    opencv_imgcodecs - 图像读写 (imread, imwrite)
+#    openencv_ml     - 机器学习 (SVM 模型加载)
+#    openencv_features2d - 特征检测 (辅助轮廓分析)
+#
+# ---------------------- 文件放置说明 ----------------------
+#
+#    编译生成的 hand_pose_inference.exe 需与以下文件放于同一目录:
+#       hand_pose_svm_model.yml        (SVM 模型文件)
+#       hand_pose_svm_model_params.yml (PCA/归一化参数)
+#
+#    测试图片文件夹路径在代码第 39 行修改:
+#       const string TEST_FOLDER = "E:/Hand_Posture_Easy_Stu";
+#    改为老师电脑上实际存在的路径。
+#
+# ---------------------- 运行 ----------------------
+#
+#    ./hand_pose_inference.exe
+#
+# ---------------------- 如果电脑没有编译环境 ----------------------
+#
+#    建议使用方案 A (vcpkg) 最为简便，全程约 20-40 分钟。
+#    如有任何编译问题，请检查:
+#       1. PATH 环境变量是否包含 MinGW 的 bin 目录
+#       2. OpenCV 的 lib 目录是否已添加到系统库路径
+#       3. g++ 版本: g++ --version  (需 >= 5.0)
+# ============================================================================
