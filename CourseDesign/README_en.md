@@ -15,8 +15,6 @@ This is the comprehensive course design project for the Machine Vision course, d
 
 ## Part 1 - SVM Hand Pose Recognition (C++/OpenCV)
 
-**Author:** Xie Gang | **Student ID:** 2411628
-
 ### Description
 
 A hand pose recognition system based on **Support Vector Machine (SVM)** with **Histogram of Oriented Gradients (HOG)** features and **PCA** dimensionality reduction.

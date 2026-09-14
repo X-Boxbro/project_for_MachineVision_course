@@ -78,12 +78,3 @@ A two-part comprehensive project: Part 1 uses SVM with HOG features for hand pos
 | Experiments 1-3 (C++ parts) | C++ | OpenCV 4.x |
 | Course Design Part 1 | C++ | OpenCV 4.x, SVM |
 | Course Design Part 2 | Python 3 | PyTorch, torchvision, PIL |
-
----
-
-## Student Information
-
-- **Name:** Xie Gang (谢刚)
-- **Student ID:** 2411628
-- **Course:** Machine Vision (机器视觉)
-- **Semester:** Second Year, Second Semester

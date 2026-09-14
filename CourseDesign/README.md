@@ -15,8 +15,6 @@ English version: [README_en.md](README_en.md)
 
 ## 第一部分 - SVM手姿态识别 (C++/OpenCV)
 
-**作者:** 谢刚 | **学号:** 2411628
-
 ### 描述
 
 基于**支持向量机(SVM)**结合**方向梯度直方图(HOG)**特征和**PCA**降维的手姿态识别系统。
